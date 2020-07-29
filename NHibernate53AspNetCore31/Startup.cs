@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using NHibernate53AspNetCore31.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NHibernate.Cfg;
+using NHibernate.NetCore;
 
 namespace NHibernate53AspNetCore31
 {
@@ -27,11 +20,14 @@ namespace NHibernate53AspNetCore31
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            var cfg = new Configuration()
+                .Use(Configuration.GetConnectionString("DefaultConnection"))
+                .WithSchemaCreate()
+                .AddIdentityMapping<Models.IdentityUser<long>, long>();
+
+            services.AddHibernate(cfg);
+            services.AddDefaultIdentity<Models.IdentityUser<long>>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddHibernateStores<long>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -42,7 +38,6 @@ namespace NHibernate53AspNetCore31
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
