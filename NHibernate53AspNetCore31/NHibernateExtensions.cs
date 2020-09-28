@@ -69,27 +69,6 @@ namespace NHibernate53AspNetCore31
             return configuration;
         }
 
-        public static Configuration UseMysql(
-            this Configuration configuration,
-            string connectionString)
-        {
-            return configuration.Use<NHibernate.Driver.MySqlDataDriver, NHibernate.Dialect.MySQL57Dialect>(connectionString);
-        }
-
-        public static Configuration UseNpgsql(
-            this Configuration configuration,
-            string connectionString)
-        {
-            return configuration.Use<NHibernate.Driver.NpgsqlDriver, NHibernate.Dialect.PostgreSQL83Dialect>(connectionString);
-        }
-
-        public static Configuration UseSqlServer(
-            this Configuration configuration,
-            string connectionString)
-        {
-            return configuration.Use<NHibernate.Driver.NpgsqlDriver, NHibernate.Dialect.PostgreSQL83Dialect>(connectionString);
-        }
-
         public static Configuration WithSchemaCreate(
             this Configuration configuration)
         {

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHibernate.Cfg;
+using NHibernate.Migration;
 using NHibernate.NetCore;
 
 namespace NHibernate53AspNetCore31
@@ -22,8 +23,10 @@ namespace NHibernate53AspNetCore31
         {
             var cfg = new Configuration()
                 .Use(Configuration.GetConnectionString("DefaultConnection"))
-                .WithSchemaCreate()
+                //.WithSchemaCreate()
                 .AddIdentityMapping<Models.IdentityUser<long>, long>();
+
+            cfg.Migrate(typeof(Startup).Assembly);
 
             services.AddHibernate(cfg);
             services.AddDefaultIdentity<Models.IdentityUser<long>>(options => options.SignIn.RequireConfirmedAccount = true)
