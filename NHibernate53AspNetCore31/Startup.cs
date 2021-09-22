@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NHibernate.Cfg;
+using NHibernate.Mapping.ByCode;
 using NHibernate.Migration;
 using NHibernate.NetCore;
+using NHibernate53AspNetCore31.Models.Mappings;
 
 namespace NHibernate53AspNetCore31
 {
@@ -21,10 +23,7 @@ namespace NHibernate53AspNetCore31
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var cfg = new Configuration()
-                .Use(Configuration.GetConnectionString("DefaultConnection"))
-                //.WithSchemaCreate()
-                .AddIdentityMapping<Models.IdentityUser<long>, long>();
+            var cfg = new NHibernateConfiguration(Configuration.GetConnectionString("DefaultConnection"));
 
             cfg.Migrate(typeof(Startup).Assembly);
 

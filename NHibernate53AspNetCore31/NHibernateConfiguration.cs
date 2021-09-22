@@ -1,4 +1,6 @@
 ﻿using System.Security.Permissions;
+using NHibernate.Mapping.ByCode;
+using NHibernate53AspNetCore31.Models.Mappings;
 
 namespace NHibernate53AspNetCore31
 {
@@ -10,6 +12,12 @@ namespace NHibernate53AspNetCore31
         {
             this.Use(connectionString)
                 .AddIdentityMapping<Models.IdentityUser<long>, long>();
+
+            var mapper = new ModelMapper();
+
+            mapper.AddMapping<DocumentMapping>();
+
+            AddMapping(mapper.CompileMappingForAllExplicitlyAddedEntities());
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System.Data.Common;
+using System.Data.Common;
 using NHibernate.Migration;
 
-namespace NHibernate53AspNetCore31.Migrations
+namespace NHibernate53AspNetCore31.Migrations.MySql
 {
-    [Migration("20200925143115_Initial", "1.0.0.0", Dialect = typeof(NHibernate.Dialect.MySQL57Dialect))]
+    [Migration("20210921150717_Initial", "1.0.0.0", Dialect = typeof(NHibernate.Dialect.MySQL57Dialect))]
     class Initial : Migration
     {
         public override void Up(NHibernate.Cfg.Configuration configuration, DbConnection connection)
@@ -15,7 +15,7 @@ namespace NHibernate53AspNetCore31.Migrations
             connection.ExecuteNonQuery("create table aspnetuserlogins (LoginProvider VARCHAR(32) not null, ProviderKey VARCHAR(32) not null, ProviderDisplayName VARCHAR(32) not null, UserId BIGINT not null, primary key (LoginProvider, ProviderKey))");
             connection.ExecuteNonQuery("create table aspnetuserroles (UserId BIGINT not null, RoleId BIGINT not null, primary key (UserId, RoleId))");
             connection.ExecuteNonQuery("create table aspnetusertokens (UserId BIGINT not null, LoginProvider VARCHAR(32) not null, Name VARCHAR(32) not null, Value TEXT not null, primary key (UserId, LoginProvider, Name))");
+            connection.ExecuteNonQuery("create table Document (Id BIGINT NOT NULL AUTO_INCREMENT, Number INTEGER, Year INTEGER, Date DATE, Subject TEXT, primary key (Id))");
         }
     }
 }
-
